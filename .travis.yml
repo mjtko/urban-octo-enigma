@@ -7,7 +7,7 @@ before_install:
   - echo TRAVIS_COMMIT is ${TRAVIS_COMMIT}
   - echo TRAVIS_COMMIT_RANGE is ${TRAVIS_COMMIT_RANGE}
   - n="alces/packages-${TRAVIS_COMMIT}"
-  - docker build -e TRAVIS_COMMIT=${TRAVIS_COMMIT} -t $n .
+  - docker build --build_arg treeish=${TRAVIS_COMMIT} -t $n .
 script:
   - echo TRAVIS_COMMIT is ${TRAVIS_COMMIT}
   - echo TRAVIS_COMMIT_RANGE is ${TRAVIS_COMMIT_RANGE}
