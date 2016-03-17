@@ -4,7 +4,6 @@ services:
   - docker
 addons:
   artifacts:
-    debug: true
     s3_region: eu-west-1
     target_paths: gridware_builds
     working_dir: $HOME
@@ -19,4 +18,5 @@ matrix:
 before_install:
   - .travis/build-container.sh
 script:
-  - .travis/run-tests.sh
+  - .travis/build-packages.sh
+
