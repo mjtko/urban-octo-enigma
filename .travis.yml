@@ -12,9 +12,7 @@ addons:
     debug: true
 env:
   - cw_DIST=el7 cw_VERSION=1.4.0
-  - cw_DIST=el7 cw_VERSION=1.4.1
   - cw_DIST=el6 cw_VERSION=1.4.0
-  - cw_DIST=el6 cw_VERSION=1.4.1
 before_install:
   - .travis/build-container.sh
 script:
