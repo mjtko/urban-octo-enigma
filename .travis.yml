@@ -19,4 +19,4 @@ script:
   - echo TRAVIS_COMMIT_RANGE is ${TRAVIS_COMMIT_RANGE}
   - packages=$(git diff --name-only ${TRAVIS_COMMIT_RANGE} | grep metadata.yml | cut -f1-3 -d'/')
   - 'echo "packages: ${packages}"'
-  - if [ "${packages}"]; then for a in ${packages}; do docker run alces/packages-${TRAVIS_COMMIT} /bin/bash -l -c "alces gridware install ${a}"; done; fi
+  - if [ "${packages}" ]; then for a in ${packages}; do docker run alces/packages-${TRAVIS_COMMIT} /bin/bash -l -c "alces gridware install ${a}"; done; fi
