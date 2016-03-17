@@ -1,0 +1,10 @@
+sudo: required
+dist: trusty
+services:
+  - docker
+before_install:
+  - docker build -t alces/packages-${TRAVIS_COMMIT} .
+script:
+  - packages=$(git diff --name-only ${TRAVIS_COMMIT_RANGE} | grep metadata.yml | cut -f1-3 -d'/')
+  - echo "packages: ${packages}"
+  - for a in packages; do docker run alces/packages-${TRAVIS_COMMIT} /bin/bash -l -c "alces gridware install ${a}"; done
