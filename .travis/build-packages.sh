@@ -33,6 +33,10 @@ if [ "${packages}" ]; then
 	    for b in ${export_packages:-${a}}; do
 		nicename="$(echo "$b" | tr '/' '-')"
 		docker cp ${ctr}:/tmp/${nicename}-${cw_DIST}.tar.gz "${build_output}"
+		ls -l "${build_output}"
+		pushd "${build_output}"
+		pwd
+		popd
 	    done
 	else
 	    echo "Skipping blacklisted package: ${a}"
