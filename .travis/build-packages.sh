@@ -13,7 +13,7 @@ if [ "${packages}" ]; then
 	fi
 	if [ -z "$ci_skip" ]; then
 	    log_output="$HOME/logs/build-${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/${nicename}"
-	    build_output="$HOME/build"
+	    build_output="$HOME/packages"
 	    mkdir -p "${log_output}"
 	    docker run ${img}:build /bin/bash -l -c "alces gridware install ${a} ${install_args}"
 	    if [ $? -gt 0 ]; then
