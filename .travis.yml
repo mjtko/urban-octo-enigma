@@ -9,7 +9,6 @@ before_install:
   - sudo apt-get update
   - sudo service docker stop
   - sudo apt-get -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::="--force-confnew" install docker-engine
-  - sudo service docker start
   - env
   - echo TRAVIS_COMMIT is ${TRAVIS_COMMIT}
   - echo TRAVIS_COMMIT_RANGE is ${TRAVIS_COMMIT_RANGE}
