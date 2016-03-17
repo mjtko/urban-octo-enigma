@@ -7,6 +7,7 @@ services:
 #  - cw_DIST=el6 cw_VERSION=1.4.0
 before_install:
   - sudo apt-get update
+  - 'echo "Dpkg::Options { \"--force-confdef\"; \"--force-confold\"; };" >> /etc/apt/apt.conf.d/50unattended-upgrades'
   - sudo apt-get install -y docker-engine
   - env
   - echo TRAVIS_COMMIT is ${TRAVIS_COMMIT}
