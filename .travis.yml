@@ -5,7 +5,7 @@ services:
 addons:
   artifacts:
     debug: true
-    s3_region: us-west-1
+    s3_region: eu-west-1
     target_paths: gridware_builds
     working_dir: $HOME
     paths:
