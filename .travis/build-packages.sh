@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 packages=$(git diff --name-only ${TRAVIS_COMMIT_RANGE} | grep metadata.yml | cut -f1-3 -d'/')
 if [ "${packages}" ]; then
     echo "Changed packages within ${TRAVIS_COMMIT_RANGE}: ${packages}"
