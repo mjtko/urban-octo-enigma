@@ -3,7 +3,7 @@ dist: trusty
 services:
   - docker
 addons:
-  artifiacts:
+  artifacts:
     debug: true
     s3_region: us-west-1
     target_paths: gridware_builds
