@@ -2,21 +2,20 @@ sudo: required
 dist: trusty
 services:
   - docker
+addons:
+  artificats: true
+  s3_region: "eu-west-1"
+  paths:
+  - $(git ls-files -o | tr "\n" ":")
+  - $HOME/builds
+  debug: true
 #env:
 #  - cw_DIST=el7 cw_VERSION=1.4.0
 #  - cw_DIST=el6 cw_VERSION=1.4.0
 before_install:
-  - sudo apt-get update
   - sudo service docker stop
+  - sudo apt-get update
   - sudo apt-get -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::="--force-confnew" install docker-engine
-  - env
-  - echo TRAVIS_COMMIT is ${TRAVIS_COMMIT}
-  - echo TRAVIS_COMMIT_RANGE is ${TRAVIS_COMMIT_RANGE}
-  - n="alces/packages-${TRAVIS_COMMIT}"
-  - docker build --build-arg treeish=${TRAVIS_COMMIT} -t $n .
+  - docker build --build-arg treeish=${TRAVIS_COMMIT} -t "alces/packages-${TRAVIS_COMMIT}" .
 script:
-  - echo TRAVIS_COMMIT is ${TRAVIS_COMMIT}
-  - echo TRAVIS_COMMIT_RANGE is ${TRAVIS_COMMIT_RANGE}
-  - packages=$(git diff --name-only ${TRAVIS_COMMIT_RANGE} | grep metadata.yml | cut -f1-3 -d'/')
-  - 'echo "packages: ${packages}"'
-  - if [ "${packages}" ]; then for a in ${packages}; do docker run alces/packages-${TRAVIS_COMMIT} /bin/bash -l -c "alces gridware install ${a}"; done; fi
+  - .travis/run-tests.sh
