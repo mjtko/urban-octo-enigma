@@ -16,14 +16,15 @@ if [ "${packages}" ]; then
 	    if [ $? -gt 0 ]; then
 		failed+=(${a})
 	    else
-		docker run ${img} /bin/bash -l -c "alces gridware export ${a}"
+		docker commit $(docker ps -alq) $img:installed
+		docker run ${img}:installed /bin/bash -l -c "alces gridware export ${a}"
 		if [ $? -gt 0 ]; then
 		    failed+=(${a})
 		fi
 	    fi
-	    container=$(docker ps -alq)
-	    docker cp ${container}:/var/log/gridware "${output}"
-	    docker cp ${container}:/tmp/${nicename}-${cw_DIST}.tar.gz "${output}"
+	    ctr=$(docker ps -alq)
+	    docker cp ${ctr}:/var/log/gridware "${output}"
+	    docker cp ${ctr}:/tmp/${nicename}-${cw_DIST}.tar.gz "${output}"
 	else
 	    echo "Skipping blacklisted package: ${a}"
 	    unset ci_skip
