@@ -3,8 +3,14 @@ dist: trusty
 services:
   - docker
 before_install:
-  - docker build -t alces/packages-${TRAVIS_COMMIT} .
+  - 'env'
+  - 'echo TRAVIS_COMMIT is ${TRAVIS_COMMIT}'
+  - 'echo TRAVIS_COMMIT_RANGE is ${TRAVIS_COMMIT_RANGE}'
+  - 'n="alces/packages-${TRAVIS_COMMIT}"'
+  - 'docker build -e TRAVIS_COMMIT=${TRAVIS_COMMIT} -t $n .'
 script:
-  - packages=$(git diff --name-only ${TRAVIS_COMMIT_RANGE} | grep metadata.yml | cut -f1-3 -d'/')
-  - echo "packages: ${packages}"
-  - for a in packages; do docker run alces/packages-${TRAVIS_COMMIT} /bin/bash -l -c "alces gridware install ${a}"; done
+  - 'echo TRAVIS_COMMIT is ${TRAVIS_COMMIT}'
+  - 'echo TRAVIS_COMMIT_RANGE is ${TRAVIS_COMMIT_RANGE}'
+  - 'packages=$(git diff --name-only ${TRAVIS_COMMIT_RANGE} | grep metadata.yml | cut -f1-3 -d'/')'
+  - 'echo "packages: ${packages}"'
+  - 'if [ "${packages}"]; then for a in ${packages}; do docker run alces/packages-${TRAVIS_COMMIT} /bin/bash -l -c "alces gridware install ${a}"; done; fi'
