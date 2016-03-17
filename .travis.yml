@@ -5,9 +5,10 @@ services:
 addons:
   artificats: true
   s3_region: "eu-west-1"
+  target_paths: gridware_builds
+  working_dir: $HOME
   paths:
-  - $(git ls-files -o | tr "\n" ":")
-  - $HOME/builds
+  - build-$TRAVIS_BUILD_NUMBER
   debug: true
 #env:
 #  - cw_DIST=el7 cw_VERSION=1.4.0
