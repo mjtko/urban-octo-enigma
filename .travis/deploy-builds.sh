@@ -7,5 +7,5 @@ if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
 	      --permissions=public-read \
 	      --target-paths 'gridware' \
 	      --working-dir "$HOME" \
-	      '$dist'
+	      '$dist'/*.tar.gz
 fi
