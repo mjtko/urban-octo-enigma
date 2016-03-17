@@ -4,7 +4,7 @@ if [ "${packages}" ]; then
     echo "Changed packages within ${TRAVIS_COMMIT_RANGE}: ${packages}"
     failed=()
     for a in ${packages}; do
-	docker run alces/packages-${TRAVIS_COMMIT} /bin/bash -l -c "alces gridware install ${a}"
+	docker run alces/packages-${TRAVIS_COMMIT}-${cw_DIST}-${cw_VERSION} /bin/bash -l -c "alces gridware install ${a}"
 	if [ $? -gt 0 ]; then
 	    failed+=(${a})
 	fi
