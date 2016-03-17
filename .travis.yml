@@ -3,20 +3,19 @@ dist: trusty
 services:
   - docker
 addons:
-  artificats: true
-  s3_region: "eu-west-1"
-  target_paths: gridware_builds
-  working_dir: $HOME
-  paths:
-  - build-$TRAVIS_BUILD_NUMBER
-  debug: true
-#env:
-#  - cw_DIST=el7 cw_VERSION=1.4.0
-#  - cw_DIST=el6 cw_VERSION=1.4.0
+  artificats:
+    s3_region: "eu-west-1"
+    target_paths: gridware_builds
+    working_dir: $HOME
+    paths:
+    - build-$TRAVIS_BUILD_NUMBER
+    debug: true
+env:
+  - cw_DIST=el7 cw_VERSION=1.4.0
+  - cw_DIST=el7 cw_VERSION=1.4.1
+  - cw_DIST=el6 cw_VERSION=1.4.0
+  - cw_DIST=el6 cw_VERSION=1.4.1
 before_install:
-  - sudo service docker stop
-  - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::="--force-confnew" install docker-engine
-  - docker build --build-arg treeish=${TRAVIS_COMMIT} -t "alces/packages-${TRAVIS_COMMIT}" .
+  - .travis/build-container.sh
 script:
   - .travis/run-tests.sh

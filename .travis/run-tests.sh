@@ -8,7 +8,7 @@ if [ "${packages}" ]; then
 	if [ $? -gt 0 ]; then
 	    failed+=(${a})
 	fi
-	output="$HOME/build/${TRAVIS_JOB_NUMBER}/$(echo "$a" | tr '/' '-')"
+	output="$HOME/build-${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/$(echo "$a" | tr '/' '-')"
 	container=$(docker ps -alq)
 	mkdir -p "${output}"
 	docker cp ${container}:/var/log/gridware "${output}"
