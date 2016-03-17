@@ -16,6 +16,7 @@ matrix:
   allow_failures:
     - env: cw_DIST=el6 cw_VERSION=1.4.0
 before_install:
+  - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
   - .travis/build-container.sh
 script:
   - .travis/build-packages.sh
