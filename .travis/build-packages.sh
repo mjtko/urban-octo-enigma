@@ -15,7 +15,7 @@ if [ "${packages}" ]; then
 	if [ -z "$ci_skip" ]; then
 	    log_output="$HOME/logs/build-${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/${nicename}"
 	    build_output="$HOME"/'$dist'
-	    mkdir -p "${log_output}"
+	    mkdir -p "${log_output}" "${build_output}"
 	    docker run ${img}:build /bin/bash -l -c "alces gridware install ${a} ${install_args}"
 	    if [ $? -gt 0 ]; then
 		failed+=(${a})
@@ -33,10 +33,6 @@ if [ "${packages}" ]; then
 	    for b in ${export_packages:-${a}}; do
 		nicename="$(echo "$b" | tr '/' '-')"
 		docker cp ${ctr}:/tmp/${nicename}-${cw_DIST}.tar.gz "${build_output}"
-		ls -l "${build_output}"
-		pushd "${build_output}"
-		pwd
-		popd
 	    done
 	else
 	    echo "Skipping blacklisted package: ${a}"
