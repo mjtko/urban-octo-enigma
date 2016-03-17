@@ -5,29 +5,36 @@ if [ "${packages}" ]; then
     failed=()
     img="alces/packages-${TRAVIS_COMMIT}-${cw_DIST}-${cw_VERSION}"
     for a in ${packages}; do
+	docker tag $img $img:build
 	nicename="$(echo "$a" | tr '/' '-')"
+	unset ci_skip export_args export_skip install_args export_packages
 	if [ -f .travis/tweaks/${nicename}.sh ]; then
 	    . .travis/tweaks/${nicename}.sh
 	fi
 	if [ -z "$ci_skip" ]; then
-	    output="$HOME/build-${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/${nicename}"
-	    mkdir -p "${output}"
-	    docker run ${img} /bin/bash -l -c "alces gridware install ${a}"
+	    log_output="$HOME/logs/build-${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/${nicename}"
+	    build_output="$HOME/build"
+	    mkdir -p "${log_output}"
+	    docker run ${img}:build /bin/bash -l -c "alces gridware install ${a} ${install_args}"
 	    if [ $? -gt 0 ]; then
 		failed+=(${a})
-	    else
-		docker commit $(docker ps -alq) $img:installed
-		docker run ${img}:installed /bin/bash -l -c "alces gridware export ${a}"
-		if [ $? -gt 0 ]; then
-		    failed+=(${a})
-		fi
+	    elif [ -z "$export_skip" ]; then
+		for b in ${export_packages:-${a}}; do
+		    docker commit $(docker ps -alq) $img:installed
+		    docker run ${img}:installed /bin/bash -l -c "alces gridware export ${export_args} ${b}"
+		    if [ $? -gt 0 ]; then
+			failed+=(${b})
+		    fi
+		done
 	    fi
 	    ctr=$(docker ps -alq)
-	    docker cp ${ctr}:/var/log/gridware "${output}"
-	    docker cp ${ctr}:/tmp/${nicename}-${cw_DIST}.tar.gz "${output}"
+	    docker cp ${ctr}:/var/log/gridware "${log_output}"
+	    for b in ${export_packages:-${a}}; do
+		nicename="$(echo "$b" | tr '/' '-')"
+		docker cp ${ctr}:/tmp/${nicename}-${cw_DIST}.tar.gz "${build_output}"
+	    done
 	else
 	    echo "Skipping blacklisted package: ${a}"
-	    unset ci_skip
 	fi
     done
     if [ "${failed[*]}" ]; then

@@ -6,7 +6,7 @@ addons:
   artifacts:
     s3_region: eu-west-1
     target_paths: gridware_builds
-    working_dir: $HOME
+    working_dir: $HOME/logs
     paths:
       - build-$TRAVIS_BUILD_NUMBER
 env:
@@ -19,4 +19,4 @@ before_install:
   - .travis/build-container.sh
 script:
   - .travis/build-packages.sh
-
+  - .travis/deploy-builds.sh
