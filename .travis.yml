@@ -3,13 +3,13 @@ dist: trusty
 services:
   - docker
 addons:
-  artificats:
-    s3_region: "eu-west-1"
+  artifiacts:
+    debug: true
+    s3_region: us-west-1
     target_paths: gridware_builds
     working_dir: $HOME
     paths:
-    - build-$TRAVIS_BUILD_NUMBER
-    debug: true
+      - build-$TRAVIS_BUILD_NUMBER
 env:
   - cw_DIST=el7 cw_VERSION=1.4.0
   - cw_DIST=el6 cw_VERSION=1.4.0
