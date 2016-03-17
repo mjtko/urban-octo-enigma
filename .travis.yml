@@ -2,7 +2,12 @@ sudo: required
 dist: trusty
 services:
   - docker
+#env:
+#  - cw_DIST=el7 cw_VERSION=1.4.0
+#  - cw_DIST=el6 cw_VERSION=1.4.0
 before_install:
+  - sudo apt-get update
+  - sudo apt-get install docker-engine
   - env
   - echo TRAVIS_COMMIT is ${TRAVIS_COMMIT}
   - echo TRAVIS_COMMIT_RANGE is ${TRAVIS_COMMIT_RANGE}
