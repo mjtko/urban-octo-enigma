@@ -13,6 +13,9 @@ addons:
 env:
   - cw_DIST=el7 cw_VERSION=1.4.0
   - cw_DIST=el6 cw_VERSION=1.4.0
+matrix:
+  allow_failures:
+    - env: cw_DIST=el6 cw_VERSION=1.4.0
 before_install:
   - .travis/build-container.sh
 script:
